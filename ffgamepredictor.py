@@ -2,10 +2,10 @@ import scipy.integrate as integrate
 import numpy as np
 import math
 
-mu1 = 95.84
-mu2 = 85.43
-sd1 = 26.98
-sd2 = 19.5
+mu1 = 106.16
+mu2 = 85.54
+sd1 = 28.33
+sd2 = 25.77
 
 #Lower limits of integrals set at 0 and upper limit set to 200 since that is the range of realistic scores
 result = integrate.dblquad(lambda x, y: (1 / (2 * math.pi * sd1 * sd2)) * \
@@ -14,5 +14,6 @@ result = integrate.dblquad(lambda x, y: (1 / (2 * math.pi * sd1 * sd2)) * \
 
 
 result2 = round(result[0] * 100, 2)
-print(result2) #percent chance team 2 wins
+print("team1 wins:", str(100 - result2) + "%")
+print("team2 wins:", str(result2) + "%")
 
