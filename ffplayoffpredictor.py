@@ -1,4 +1,6 @@
 import itertools
+import pandas as pd
+import matplotlib.pyplot as plt
 
 ranksummary = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0}
 
@@ -84,9 +86,43 @@ for team in teams:
         playoffodds += (team.ranksummary[rank] / totalscenarios)
     team.playoffodds = round(playoffodds * 100, 2)
 
-teams.sort(key = lambda x: x.playoffodds, reverse = True)
+    expectedrank = 0
+    for rank in range(1, 13):
+        expectedrank += rank * (team.ranksummary[rank] / totalscenarios)
+    team.expectedrank = expectedrank
+
+teams.sort(key = lambda x: x.expectedrank)
 
 for team in teams:
     for key in team.ranksummary:
         team.ranksummary[key] = round((team.ranksummary[key] / totalscenarios) * 100, 2) #convert to percentage
-    print(team.name, str(team.playoffodds) + "%",team.ranksummary)
+    #print(team.name, str(team.playoffodds) + "%", team.expectedrank, team.ranksummary)
+
+playoffodds = pd.DataFrame({'rank' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11, 12],
+                            chubba.name : list(chubba.ranksummary.values()),
+                            golladays.name : list(golladays.ranksummary.values()),
+                            bortles.name : list(bortles.ranksummary.values()),
+                            job.name : list(job.ranksummary.values()),
+                            obj.name : list(obj.ranksummary.values()),
+                            luck.name : list(luck.ranksummary.values()),
+                            apple.name : list(apple.ranksummary.values()),
+                            allstars.name : list(allstars.ranksummary.values()),
+                            krakens.name : list(krakens.ranksummary.values()),
+                            juju.name : list(juju.ranksummary.values()),
+                            charm.name : list(charm.ranksummary.values()),
+                            ships.name : list(ships.ranksummary.values())})
+
+fig, axes = plt.subplots(figsize = (9, 9), nrows = 3, ncols = 4)
+playoffodds.set_index('rank', drop = True, inplace = True)
+
+for x in range(0, 3):
+    for y in range(0, 4):
+        teamname = teams[(4 * x) + y].name
+        playoffodds[teamname].plot(ax = axes[x,y], kind = 'bar', color=['C0', 'C0', 'C0', 'C0', 'C1', 'C1', 'C1', 'C1', 'C1', 'C1', 'C1', 'C3'])
+        axes[x, y].set_ylim(0, 60)
+        axes[x, y].set_title(teamname)
+        #axes[x, y].set_ylabel('% chance of outcome')
+        axes[x, y].set_xlabel('')
+        
+plt.tight_layout()
+plt.show()
