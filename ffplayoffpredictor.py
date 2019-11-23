@@ -1,8 +1,7 @@
 import itertools
 import pandas as pd
 import matplotlib.pyplot as plt
-
-ranksummary = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0}
+import math
 
 class Team:
     def __init__(self, name, currentwins, points, ranksummary):
@@ -11,20 +10,22 @@ class Team:
         self.points = points
         self.ranksummary = ranksummary
 
-chubba = Team("chubba chubba choo choo", 9, 1078.4, ranksummary.copy())
-golladays = Team("happy golladays", 8, 1167.76, ranksummary.copy())
-bortles = Team("bortles' chortles", 7, 1168.58, ranksummary.copy())
-job = Team("do your job", 7, 1120.26, ranksummary.copy())
-obj = Team("bend it like obj", 7, 1043.60, ranksummary.copy())
-luck = Team("shit outta luck", 6, 1050.30, ranksummary.copy())
-apple = Team("the big apple", 6, 957.44, ranksummary.copy())
-allstars = Team("titty city all stars", 5, 1028.62, ranksummary.copy())
-krakens = Team("the purple krakens", 3, 900.70, ranksummary.copy())
-juju = Team("got that good juju", 3, 894.96, ranksummary.copy())
-charm = Team("fifth time's a charm", 3, 862.12, ranksummary.copy())
-ships = Team("sinking ships losing 'chips", 2, 940.90, ranksummary.copy())
+ranksummarybase = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0}
 
-teams = [chubba, golladays, bortles, job, obj, luck, apple, allstars, \
+chubba = Team("chubba chubba choo choo", 9, 1078.4, ranksummarybase.copy())
+golladays = Team("happy golladays", 8, 1167.76, ranksummarybase.copy())
+bortles = Team("bortles' chortles", 7, 1168.58, ranksummarybase.copy())
+job = Team("do your job", 7, 1120.26, ranksummarybase.copy())
+obj = Team("bend it like obj", 7, 1043.60, ranksummarybase.copy())
+luck = Team("outta luck", 6, 1050.30, ranksummarybase.copy())
+apple = Team("the big apple", 6, 957.44, ranksummarybase.copy())
+allstars = Team("all stars", 5, 1028.62, ranksummarybase.copy())
+krakens = Team("the purple krakens", 3, 900.70, ranksummarybase.copy())
+juju = Team("got that good juju", 3, 894.96, ranksummarybase.copy())
+charm = Team("fifth time's a charm", 3, 862.12, ranksummarybase.copy())
+ships = Team("sinking ships losing 'chips", 2, 940.90, ranksummarybase.copy())
+
+teams = [chubba, golladays, bortles, job, obj, luck, apple, allstars,
          krakens, juju, charm, ships]
 
 game1 = [golladays, ships]
@@ -48,13 +49,14 @@ game16 = [obj, juju]
 game17 = [apple, allstars]
 game18 = [charm, luck]
 
+games = [game1, game2, game3, game4, game5, game6, game7, game8, game9, game10,
+         game11, game12, game13, game14, game15, game16, game17, game18]
+
 #find all possible scenarios
-results = list(itertools.product(game1, game2, game3, game4, game5, game6, \
-                                 game7, game8, game9, game10, game11, game12, \
-                                 game13, game14, game15, game16, game17, game18))
+results = list(itertools.product(*games))
 
 count = 0
-totalscenarios = 2 ** 18
+totalscenarios = 2 ** len(games)
 print("total number of scenarios: ", totalscenarios)
 print("evaluating scenarios...", end = '')
 
@@ -68,7 +70,7 @@ for result in results:
     
     teams.sort(key = lambda x: (x.wins, x.points), reverse = True) #sort teams by wins then points (both descending)
 
-    for i in range(0, len(teams)):
+    for i in range(0, len(teams)): #summarize results
         teams[i].ranksummary[i + 1] += 1
 
     if count % 100000 == 0:
@@ -95,26 +97,21 @@ teams.sort(key = lambda x: x.expectedrank)
 
 print('\n')
 
-#round and display raw rank data
+visdata = {'rank' : list(range(1, len(teams) + 1))}
+
+maxrankodds = 0 #save to scale visualizations
 for team in teams:
+    #round and display raw rank data
     for rank in team.ranksummary:
-        team.ranksummary[rank] = round((team.ranksummary[rank] / totalscenarios) * 100, 2)
+        rankodds = round((team.ranksummary[rank] / totalscenarios) * 100, 2)
+        maxrankodds = rankodds if rankodds > maxrankodds else maxrankodds
+        team.ranksummary[rank] = rankodds
     print(team.name, '|', str(team.playoffodds) + '%', '|', team.expectedrank, '|', team.ranksummary)
 
-#save data to use in pandas
-playoffodds = pd.DataFrame({'rank' : [1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ,11, 12],
-                            chubba.name : list(chubba.ranksummary.values()),
-                            golladays.name : list(golladays.ranksummary.values()),
-                            bortles.name : list(bortles.ranksummary.values()),
-                            job.name : list(job.ranksummary.values()),
-                            obj.name : list(obj.ranksummary.values()),
-                            luck.name : list(luck.ranksummary.values()),
-                            apple.name : list(apple.ranksummary.values()),
-                            allstars.name : list(allstars.ranksummary.values()),
-                            krakens.name : list(krakens.ranksummary.values()),
-                            juju.name : list(juju.ranksummary.values()),
-                            charm.name : list(charm.ranksummary.values()),
-                            ships.name : list(ships.ranksummary.values())})
+    #save data in a dictionary for visualization
+    visdata[team.name] = list(team.ranksummary.values())
+
+playoffodds = pd.DataFrame(visdata)
 
 #initialize plot
 fig, axes = plt.subplots(figsize = (9, 9), nrows = 3, ncols = 4)
@@ -134,7 +131,7 @@ for x in range(0, 3):
     for y in range(0, 4):
         teamname = teams[(4 * x) + y].name
         playoffodds[teamname].plot(ax = axes[x,y], kind = 'bar', color = colors)
-        axes[x, y].set_ylim(0, 60)
+        axes[x, y].set_ylim(0, 10 * math.ceil(maxrankodds / 10)) #set y axis limit based on largest rank odds(round up to nearest 10)
         axes[x, y].set_title(teamname)
         axes[x, y].set_xlabel('')
 
