@@ -8,9 +8,10 @@ latitude = "37.825522"
 longitude = "-122.448270"
 darkSkyKey = "" #Dark Sky API key, get with free account at https://darksky.net/
 exclude = "minutely, hourly, daily, alerts, flags" #exclude unused data in response
+units = "si"
 
 URL_GET = "https://api.darksky.net/forecast/" + darkSkyKey + '/' + latitude + ',' + longitude
-PARAMS_GET = {'exclude': exclude}
+PARAMS_GET = {'exclude': exclude, 'units': units}
 
 r = requests.get(url = URL_GET, params = PARAMS_GET)
 
