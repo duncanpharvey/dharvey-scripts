@@ -86,18 +86,13 @@ for total in range(5, 50):
         # remove duplicate words
         wordSet = set()
         for word in words:
-            word = list(word)
-            word.sort()
-            wordSet.add(tuple(word))
+            wordSet.add(''.join(sorted(word)))
 
         # check if letter count in word exceeds number of available letters
         for word in wordSet:
             letterSummary = {}
             for letter in word:
-                if letter in letterSummary:
-                    letterSummary[letter] += 1
-                else:
-                    letterSummary[letter] = 1
+                letterSummary[letter] = letterSummary.get(letter, 0) + 1
 
             add = True
             for letter in letterSummary:
@@ -112,6 +107,9 @@ for total in range(5, 50):
     print(str(total).rjust(5, ' '), '|', str(num).rjust(14, ' '))
     x.append(total)
     y.append(num)
+
+print(x)
+print(y)
 
 df = pd.DataFrame({'total': x, 'possible words': y})
 fig = px.bar(df, x = "total", y = "possible words")
