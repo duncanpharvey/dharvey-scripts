@@ -1,4 +1,3 @@
-import nltk
 import plotly.express as px
 import pandas as pd
 
@@ -65,17 +64,15 @@ letterValue = {
 x = 0
 words = set() # all possible permutations of letters that form real scrabble words
 words_sorted = set() # unique combination of letters that forms at least one real scrabble word
-for word in nltk.corpus.words.words("en"):
+f = open("CollinsScrabbleWords2019.txt", "r")
+for line in f:
+    word = line.rstrip()
     x += 1
     if x % 10000 == 0:
         print(x)
+        
     # validate word length
     if len(word) != 7:
-        continue
-    
-    # remove proper nouns
-    pos = nltk.pos_tag(nltk.tokenize.word_tokenize(word))[0][1]
-    if pos in {'NNP', 'NNPS'}:
         continue
 
     word = word.lower()
@@ -88,7 +85,7 @@ for word in nltk.corpus.words.words("en"):
         for j in range(i + 1, 7):
             blankWords.append(oneBlank[:j] + ' ' + oneBlank[j + 1:])
 
-    # is it a valid scrabble word based on available letters
+    # is it a valid word based on available letters
     for w in blankWords:
         letterSummary = {}
         for letter in w:
@@ -105,18 +102,18 @@ for word in nltk.corpus.words.words("en"):
 
         words.add(w)
         words_sorted.add(''.join(sorted(w)))
+        
+f.close()
 
 print('total words: ', len(words))
 print('unique combinations of letters that form at least one real word: ', len(words_sorted))
 
 totalSummary = {}
-for w in words:
+for w in words_sorted:
     total = 0
     for l in w:
         total += letterValue[l]
     totalSummary[total] = totalSummary.get(total, 0) + 1
-    if total > 25:
-        print(w, total)
 
 x = []
 y = []
