@@ -110,11 +110,13 @@ print('total words: ', len(words))
 print('unique combinations of letters that form at least one real word: ', len(words_sorted))
 
 totalSummary = {}
-for w in words_sorted:
+for w in words:
     total = 0
     for l in w:
         total += letterValue[l]
     totalSummary[total] = totalSummary.get(total, 0) + 1
+    if total > 25:
+        print(w, total)
 
 x = []
 y = []
