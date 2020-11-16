@@ -3,6 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import math
 
+import time
+start = time.time()
+
 class Team:
     def __init__(self, name, currentwins, points, ranksummary):
         self.name = name
@@ -12,53 +15,71 @@ class Team:
 
 ranksummarybase = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0}
 
-chubba = Team("chubba chubba choo choo", 9, 1078.4, ranksummarybase.copy())
-golladays = Team("happy golladays", 8, 1167.76, ranksummarybase.copy())
-bortles = Team("bortles' chortles", 7, 1168.58, ranksummarybase.copy())
-job = Team("do your job", 7, 1120.26, ranksummarybase.copy())
-obj = Team("bend it like obj", 7, 1043.60, ranksummarybase.copy())
-luck = Team("outta luck", 6, 1050.30, ranksummarybase.copy())
-apple = Team("the big apple", 6, 957.44, ranksummarybase.copy())
-allstars = Team("all stars", 5, 1028.62, ranksummarybase.copy())
-krakens = Team("the purple krakens", 3, 900.70, ranksummarybase.copy())
-juju = Team("got that good juju", 3, 894.96, ranksummarybase.copy())
-charm = Team("fifth time's a charm", 3, 862.12, ranksummarybase.copy())
-ships = Team("sinking ships losing 'chips", 2, 940.90, ranksummarybase.copy())
+mahomes = Team("quarantined in mahomes", 6, 940, ranksummarybase.copy())
+comeback = Team("don't call it a comeback", 6, 908, ranksummarybase.copy())
+gore = Team("goreonavirus", 6, 876, ranksummarybase.copy())
+bortles = Team("bortles' chortles", 5, 952, ranksummarybase.copy())
+fresh = Team("fresh prince of helaire", 5, 856, ranksummarybase.copy())
+chubba = Team("chubba chubba choo choo", 5, 845, ranksummarybase.copy())
+josh = Team("josh jacobs jingleheimerschmidt", 5, 792, ranksummarybase.copy())
+bucs = Team("bucs bandwagon", 4, 861, ranksummarybase.copy())
+lil = Team("lil harvey", 4, 817, ranksummarybase.copy())
+krakens = Team("the purple krakens", 4, 801, ranksummarybase.copy())
+juju = Team("need that good juju", 2, 779, ranksummarybase.copy())
+charm = Team("eighth time's a charm", 2, 760, ranksummarybase.copy())
 
-teams = [chubba, golladays, bortles, job, obj, luck, apple, allstars,
-         krakens, juju, charm, ships]
 
-game1 = [golladays, ships]
-game2 = [obj, chubba]
-game3 = [apple, krakens]
-game4 = [charm, job]
-game5 = [luck, bortles]
-game6 = [allstars, juju]
+teams = [mahomes, comeback, gore, bortles, fresh, chubba, josh, bucs,
+         lil, krakens, juju, charm]
 
-game7 = [golladays, krakens]
-game8 = [ships, chubba]
-game9 = [job, obj]
-game10 = [bortles, apple]
-game11 = [juju, charm]
-game12 = [allstars, luck]
+game1 = [josh, lil]
+game2 = [comeback, charm]
+game3 = [chubba, krakens]
+game4 = [juju, gore]
+game5 = [bucs, fresh]
+game6 = [bortles, mahomes]
 
-game13 = [golladays, bortles]
-game14 = [krakens, ships]
-game15 = [chubba, job]
-game16 = [obj, juju]
-game17 = [apple, allstars]
-game18 = [charm, luck]
+game7 = [josh, comeback]
+game8 = [charm, bucs]
+game9 = [gore, bortles]
+game10 = [mahomes, lil]
+game11 = [juju, krakens]
+game12 = [fresh, chubba]
 
-games = [game1, game2, game3, game4, game5, game6, game7, game8, game9, game10,
-         game11, game12, game13, game14, game15, game16, game17, game18]
+game13 = [josh, krakens]
+game14 = [chubba, fresh]
+game15 = [bucs, bortles]
+game16 = [mahomes, juju]
+game17 = [charm, comeback]
+game18 = [lil, gore]
+
+game19 = [josh, juju]
+game20 = [mahomes, comeback]
+game21 = [bucs, krakens]
+game22 = [fresh, gore]
+game23 = [bortles, charm]
+game24 = [lil, chubba]
+
+game25 = [josh, bortles]
+game26 = [charm, mahomes]
+game27 = [gore, chubba]
+game28 = [juju, comeback]
+game29 = [krakens, fresh]
+game30 = [lil, bucs]
+
+games = [
+            game1, game2, game3, game4, game5, game6,
+            game7, game8, game9, game10, game11, game12,
+            #game13, game14, game15, game16, game17, game18,
+            #game19, game20, game21, game22, game23, game24,
+            #game25, game26, game27, game28, game29, game30
+        ]
 
 #find all possible scenarios
-results = list(itertools.product(*games))
+results = itertools.product(*games)
 
-count = 0
 totalscenarios = 2 ** len(games)
-print("total number of scenarios: ", totalscenarios)
-print("evaluating scenarios...", end = '')
+print("total number of scenarios:", totalscenarios)
 
 #determine number of wins for each team at the end of each scenario
 for result in results:
@@ -73,13 +94,8 @@ for result in results:
     for i in range(0, len(teams)): #summarize results
         teams[i].ranksummary[i + 1] += 1
 
-    if count % 100000 == 0:
-        print(count, end = '')
-        
-    if count % 10000 == 0:
-        print('.', end = '')
-    
-    count += 1
+end = time.time()
+print("time:", end - start, "seconds")
 
 #determine playoff odds based off of scenario summary- teams make playoffs if they are one of the top 4 ranked teams
 for team in teams:
@@ -94,8 +110,6 @@ for team in teams:
     team.expectedrank = round(expectedrank, 2)
 
 teams.sort(key = lambda x: x.expectedrank)
-
-print('\n')
 
 visdata = {'rank' : list(range(1, len(teams) + 1))}
 
