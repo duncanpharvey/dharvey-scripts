@@ -70,19 +70,16 @@ game30 = [lil, bucs]
 games = [
             game1, game2, game3, game4, game5, game6,
             game7, game8, game9, game10, game11, game12,
-            #game13, game14, game15, game16, game17, game18,
-            #game19, game20, game21, game22, game23, game24,
-            #game25, game26, game27, game28, game29, game30
+            game13, game14, game15, game16, game17, game18,
+            game19, game20, game21, game22, game23, game24,
+            game25, game26, game27, game28, game29, game30
         ]
-
-#find all possible scenarios
-results = itertools.product(*games)
 
 totalscenarios = 2 ** len(games)
 print("total number of scenarios:", totalscenarios)
 
 #determine number of wins for each team at the end of each scenario
-for result in results:
+for result in itertools.product(*games):
     for team in teams:
         team.wins = team.currentwins #reset wins for each team for each result
         
