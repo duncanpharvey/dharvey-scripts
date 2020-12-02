@@ -15,18 +15,18 @@ class Team:
 
 ranksummarybase = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0}
 
-mahomes = Team("quarantined in mahomes", 6, 940, ranksummarybase.copy())
-comeback = Team("don't call it a comeback", 6, 908, ranksummarybase.copy())
-gore = Team("goreonavirus", 6, 876, ranksummarybase.copy())
-bortles = Team("bortles' chortles", 5, 952, ranksummarybase.copy())
-fresh = Team("fresh prince of helaire", 5, 856, ranksummarybase.copy())
-chubba = Team("chubba chubba choo choo", 5, 845, ranksummarybase.copy())
-josh = Team("josh jacobs jingleheimerschmidt", 5, 792, ranksummarybase.copy())
-bucs = Team("bucs bandwagon", 4, 861, ranksummarybase.copy())
-lil = Team("lil harvey", 4, 817, ranksummarybase.copy())
-krakens = Team("the purple krakens", 4, 801, ranksummarybase.copy())
-juju = Team("need that good juju", 2, 779, ranksummarybase.copy())
-charm = Team("eighth time's a charm", 2, 760, ranksummarybase.copy())
+mahomes = Team("quarantined in mahomes", 7, 1212, ranksummarybase.copy())
+comeback = Team("don't call it a comeback", 6, 1180, ranksummarybase.copy())
+gore = Team("goreonavirus", 8, 1149, ranksummarybase.copy())
+bortles = Team("bortles' chortles", 7, 1253, ranksummarybase.copy())
+fresh = Team("fresh prince of helaire", 7, 1115.40, ranksummarybase.copy())
+chubba = Team("chubba chubba choo choo", 7, 1115.82, ranksummarybase.copy())
+josh = Team("josh jacobs jingleheimerschmidt", 8, 1129, ranksummarybase.copy())
+bucs = Team("bucs bandwagon", 4, 1082, ranksummarybase.copy())
+lil = Team("lil harvey", 5, 1091, ranksummarybase.copy())
+krakens = Team("the purple krakens", 4, 981, ranksummarybase.copy())
+juju = Team("need that good juju", 4, 1013, ranksummarybase.copy())
+charm = Team("eighth time's a charm", 5, 1067, ranksummarybase.copy())
 
 
 teams = [mahomes, comeback, gore, bortles, fresh, chubba, josh, bucs,
@@ -68,9 +68,9 @@ game29 = [krakens, fresh]
 game30 = [lil, bucs]
 
 games = [
-            game1, game2, game3, game4, game5, game6,
-            game7, game8, game9, game10, game11, game12,
-            game13, game14, game15, game16, game17, game18,
+            # game1, game2, game3, game4, game5, game6,
+            # game7, game8, game9, game10, game11, game12,
+            # game13, game14, game15, game16, game17, game18,
             game19, game20, game21, game22, game23, game24,
             game25, game26, game27, game28, game29, game30
         ]
