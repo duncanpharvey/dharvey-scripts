@@ -45,39 +45,38 @@ game28 = [juju, comeback]
 game29 = [krakens, fresh]
 game30 = [lil, bucs]
 
-week13 = [game19, game20, game21, game22, game23, game24]
-week14 = [game25, game26, game27, game28, game29, game30]
-
-weeks = [week13, week14]
+games = [
+            game19, game20, game21, game22, game23, game24,
+            game25, game26, game27, game28, game29, game30
+        ]
 
 start = time.time()
 
-trials = 1000000
+trials = 100000
 
 for i in range(trials):
     for team in teams:
         team.wins = team.currentwins
         team.points = team.currentpoints
 
-    for week in weeks:
-        for game in week:
-            team1 = game[0]
-            team2 = game[1]
+    for game in games:
+        team1 = game[0]
+        team2 = game[1]
 
-            scores = list(map(lambda team: np.random.normal(team.mean, team.stddev, 1)[0], game))
-            score1 = scores[0]
-            score2 = scores[1]
+        scores = list(map(lambda team: np.random.normal(team.mean, team.stddev, 1)[0], game))
+        score1 = scores[0]
+        score2 = scores[1]
 
-            if score1 > score2:
-                team1.wins += 1
-            elif score2 > score1:
-                team2.wins += 1
-            else:
-                team1.wins += 0.5
-                team2.wins += 0.5
-            
-            team1.points += score1
-            team2.points += score2
+        if score1 > score2:
+            team1.wins += 1
+        elif score2 > score1:
+            team2.wins += 1
+        else:
+            team1.wins += 0.5
+            team2.wins += 0.5
+
+        team1.points += score1
+        team2.points += score2
 
     teams.sort(key = lambda x: (x.wins, x.points), reverse = True)
 
