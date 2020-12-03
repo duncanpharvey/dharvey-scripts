@@ -6,28 +6,29 @@ import math
 import time
 start = time.time()
 
+ranksummarybase = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0}
+
 class Team:
-    def __init__(self, name, currentwins, points, ranksummary):
+    def __init__(self, name, currentwins, points, mean, stddev):
         self.name = name
         self.currentwins = currentwins
         self.points = points
-        self.ranksummary = ranksummary
+        self.mean = mean
+        self.stddev = stddev
+        self.ranksummary = ranksummarybase.copy()
 
-ranksummarybase = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0}
-
-mahomes = Team("quarantined in mahomes", 7, 1212, ranksummarybase.copy())
-comeback = Team("don't call it a comeback", 6, 1180, ranksummarybase.copy())
-gore = Team("goreonavirus", 8, 1149, ranksummarybase.copy())
-bortles = Team("bortles' chortles", 7, 1253, ranksummarybase.copy())
-fresh = Team("fresh prince of helaire", 7, 1115.40, ranksummarybase.copy())
-chubba = Team("chubba chubba choo choo", 7, 1115.82, ranksummarybase.copy())
-josh = Team("josh jacobs jingleheimerschmidt", 8, 1129, ranksummarybase.copy())
-bucs = Team("bucs bandwagon", 4, 1082, ranksummarybase.copy())
-lil = Team("lil harvey", 5, 1091, ranksummarybase.copy())
-krakens = Team("the purple krakens", 4, 981, ranksummarybase.copy())
-juju = Team("need that good juju", 4, 1013, ranksummarybase.copy())
-charm = Team("eighth time's a charm", 5, 1067, ranksummarybase.copy())
-
+mahomes = Team("quarantined in mahomes", 7, 1212, 101, 17.25)
+comeback = Team("don't call it a comeback", 6, 1180, 98.36, 16.84)
+gore = Team("goreonavirus", 8, 1149, 95.73, 15.04)
+bortles = Team("bortles' chortles", 7, 1253, 104.45, 19.3)
+fresh = Team("fresh prince of helaire", 7, 1115.40, 92.95, 10.18)
+chubba = Team("chubba chubba choo choo", 7, 1115.82, 92.99, 11.88)
+josh = Team("josh jacobs jingleheimerschmidt", 8, 1129, 94.06, 16.88)
+bucs = Team("bucs bandwagon", 4, 1082, 90.13, 19.42)
+lil = Team("lil harvey", 5, 1091, 90.9, 19.19)
+krakens = Team("purple krakens", 4, 981, 81.78, 23.92)
+juju = Team("need that good juju", 4, 1013, 84.41, 22.07)
+charm = Team("eighth time's a charm", 5, 1067, 88.92, 15.96)
 
 teams = [mahomes, comeback, gore, bortles, fresh, chubba, josh, bucs,
          lil, krakens, juju, charm]
