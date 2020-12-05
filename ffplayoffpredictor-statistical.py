@@ -7,7 +7,7 @@ import math
 ranksummarybase = {1:0, 2:0, 3:0, 4:0, 5:0, 6:0, 7:0, 8:0, 9:0, 10:0, 11:0, 12:0}
 
 class Team:
-    def __init__(self, name, currentwins, currentpoints, mean, stddev):
+    def __init__(self, name, currentwins, currentpoints, mean, stddev, weightedmean, weightedstddev):
         self.name = name
         self.currentwins = currentwins
         self.currentpoints = currentpoints
@@ -15,18 +15,18 @@ class Team:
         self.stddev = stddev
         self.ranksummary = ranksummarybase.copy()
 
-mahomes = Team("quarantined in mahomes", 7, 1212, 101, 17.25)
-comeback = Team("don't call it a comeback", 6, 1180, 98.36, 16.84)
-gore = Team("goreonavirus", 8, 1149, 95.73, 15.04)
-bortles = Team("bortles' chortles", 7, 1253, 104.45, 19.3)
-fresh = Team("fresh prince of helaire", 7, 1115.40, 92.95, 10.18)
-chubba = Team("chubba chubba choo choo", 7, 1115.82, 92.99, 11.88)
-josh = Team("josh jacobs jingleheimerschmidt", 8, 1129, 94.06, 16.88)
-bucs = Team("bucs bandwagon", 4, 1082, 90.13, 19.42)
-lil = Team("lil harvey", 5, 1091, 90.9, 19.19)
-krakens = Team("purple krakens", 4, 981, 81.78, 23.92)
-juju = Team("need that good juju", 4, 1013, 84.41, 22.07)
-charm = Team("eighth time's a charm", 5, 1067, 88.92, 15.96)
+mahomes = Team("quarantined in mahomes", 7, 1212.04, 101, 17.25, 95.71, 16.43)
+comeback = Team("don't call it a comeback", 6, 1180.26, 98.36, 16.84, 96.59, 14.76)
+gore = Team("goreonavirus", 8, 1148.8, 95.73, 15.04, 90.65, 12.93)
+bortles = Team("bortles' chortles", 7, 1253.42, 104.45, 19.3, 104.31, 17.17)
+fresh = Team("fresh prince of helaire", 7, 1115.4, 92.95, 10.18, 90.6, 10.06)
+chubba = Team("chubba chubba choo choo", 7, 1115.82, 92.99, 11.88, 91.23, 11.84)
+josh = Team("josh jacobs jingleheimerschmidt", 8, 1128.66, 94.06, 16.88, 100.49, 17.04)
+bucs = Team("bucs bandwagon", 4, 1081.6, 90.13, 19.42, 87.04, 20.38)
+lil = Team("lil harvey", 5, 1090.78, 90.9, 19.19, 89.43, 18.54)
+krakens = Team("purple krakens", 4, 981.34, 81.78, 23.92, 73.3, 22.9)
+juju = Team("need that good juju", 4, 1012.94, 84.41, 22.07, 84.3, 22.91)
+charm = Team("eighth time's a charm", 5, 1067.08, 88.92, 15.96, 89.28, 16.85)
 
 teams = [mahomes, comeback, gore, bortles, fresh, chubba, josh, bucs,
          lil, krakens, juju, charm]
@@ -52,7 +52,7 @@ games = [
 
 start = time.time()
 
-trials = 100000
+trials = 1000000
 
 for i in range(trials):
     for team in teams:
